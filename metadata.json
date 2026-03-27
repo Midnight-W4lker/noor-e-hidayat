@@ -1,0 +1,7 @@
+{
+  "name": "Noor-e-Hidayat Portal",
+  "description": "The Imam & Admin Portal for the Noor-e-Hidayat Islamic Ecosystem. Features Khutbah Builder, Masjid Management, and AI Guidance.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

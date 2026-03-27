@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noor-e-Hidayat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts: Amiri (Arabic), Noto Nastaliq Urdu (Urdu), Playfair Display (English Headers), Lato (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom Scrollbar - Minimalist & Hidden where possible */
+      .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+      }
+      .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+      
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #C5A059; 
+        border-radius: 10px;
+        opacity: 0.5;
+      }
+      
+      /* Typography Utils */
+      .font-arabic { font-family: 'Amiri', serif; line-height: 2.2; }
+      .font-urdu { font-family: 'Noto Nastaliq Urdu', serif; line-height: 2.4; }
+      .font-heading { font-family: 'Playfair Display', serif; }
+      .font-body { font-family: 'Lato', sans-serif; }
+      
+      /* Gentle Pattern Overlay */
+      .bg-texture-paper {
+        background-color: #F5F2E9;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23A39070' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+
+      /* Animations */
+      @keyframes fade-in-up {
+        0% { opacity: 0; transform: translateY(10px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in-up {
+        animation: fade-in-up 0.5s ease-out forwards;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cream: {
+                50: '#FCFAF5',
+                100: '#F5F2E9', // Primary Background (Vintage Paper)
+                200: '#EBE5D5',
+                300: '#DFD6C0',
+              },
+              sage: {
+                500: '#4A6C4F', // Muted Islamic Green
+                600: '#3A5A3F',
+                700: '#2F5233', // Deep Sage
+                800: '#1A301D',
+                900: '#0F1C11',
+              },
+              antique: {
+                400: '#D4BE94',
+                500: '#C5A059', // Standard Bronze/Gold
+                600: '#B08968', // Wood/Leather tone
+                700: '#8D6E4F',
+              },
+              ink: {
+                900: '#2D3436', // Soft Black
+                800: '#3E4446',
+                600: '#636E72',
+                400: '#B2BEC3',
+              }
+            },
+            boxShadow: {
+              'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+              'inner-light': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.02)',
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-cream-100 text-ink-900 antialiased selection:bg-sage-700 selection:text-cream-50 overflow-hidden">
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
