@@ -1,4 +1,4 @@
-# Noor-e-Hidayat Portal (Local-Only)
+# Noor-e-Hidayat Portal
 
 Noor-e-Hidayat is a local-first Islamic community portal built with React + Vite.
 
