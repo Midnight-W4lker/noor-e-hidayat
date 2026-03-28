@@ -128,7 +128,9 @@ export const AICompanion: React.FC = () => {
             className="w-full bg-divinity-50 text-ink-900 border border-baghdad-500/30 rounded-xl p-4 pr-12 focus:outline-none focus:border-baghdad-500 focus:ring-1 focus:ring-baghdad-500/50 resize-none h-14 max-h-32 font-body shadow-inner"
             rows={1}
           />
-          <button 
+          <button
+            aria-label="Send message"
+            title="Send message"
             onClick={handleSend}
             disabled={isLoading || !input.trim()}
             className="absolute right-2 bottom-2 p-2 bg-baghdad-500 text-divinity-100 rounded-lg hover:bg-baghdad-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-md"

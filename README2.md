@@ -1,3 +1,9 @@
+---
+noteId: "f328d5602adb11f191cadbf03a6fe935"
+tags: []
+
+---
+
 # Legacy Notes
 
 This file is deprecated.

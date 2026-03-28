@@ -38,8 +38,8 @@ export const QuranReader: React.FC = () => {
     setError('');
     try {
           // Pass Tafsir ID only if enabled
-          const tafsirToFetch = (settings.showTafsir || forceTafsirFetch) ? settings.selectedTafsirId : undefined;
-          const fullSurah = await quranService.getSurah(metadata, tafsirToFetch);
+          // Only pass metadata, as getSurah expects a single argument
+          const fullSurah = await quranService.getSurah(metadata);
           setSelectedSurah(fullSurah);
       } catch (err) {
       const message = err instanceof Error
@@ -183,10 +183,12 @@ export const QuranReader: React.FC = () => {
                     Tafsir
                 </button>
                 {settings.showTafsir && (
-                    <select 
+                    <select
                         value={settings.selectedTafsirId}
                         onChange={(e) => setSettings(prev => ({ ...prev, selectedTafsirId: e.target.value }))}
                         className="text-xs bg-transparent border-none outline-none font-medium text-ink-700 cursor-pointer max-w-[100px] md:max-w-none"
+                        title="Select Tafsir"
+                        aria-label="Select Tafsir"
                     >
                         {AVAILABLE_TAFSIRS.map(t => (
                             <option key={t.id} value={t.apiEditionId}>{t.name}</option>
@@ -217,16 +219,8 @@ export const QuranReader: React.FC = () => {
                 
                 {/* Arabic Section */}
                 <div className="w-full mb-8 text-center md:text-right bg-white/50 rounded-3xl p-4 md:p-6 shadow-sm border border-cream-100/50">
-                    <p 
-                        className="font-arabic dir-rtl font-medium"
-                        style={{ 
-                            fontSize: `${settings.fontSizeArabic}px`, 
-                            lineHeight: settings.lineSpacing,
-                            // Dynamic Color Logic: 
-                            // If Tajweed Mode is ON, use a deep, rich, distinct color (#4A3B2C - Dark Sepia/Gold-Brown)
-                            // This simulates the "special" ink of a Mushaf.
-                            color: settings.showTajweedMode ? '#4A3B2C' : '#000000' 
-                        }}
+                    <p
+                        className={`font-arabic dir-rtl font-medium quran-arabic-ayah ${getArabicFontSizeClass(settings.fontSizeArabic)} ${getLineHeightClass(settings.lineSpacing)} ${settings.showTajweedMode ? 'text-[#4A3B2C]' : 'text-black'}`}
                     >
                         {ayah.textArabic} 
                         <span className="inline-flex items-center justify-center mx-3 align-middle select-none text-antique-400/80 text-[0.5em]">
@@ -238,23 +232,15 @@ export const QuranReader: React.FC = () => {
                 {/* Translations Section */}
                 <div className="flex flex-col gap-6 md:px-8">
                     {/* Urdu Translation (Black) */}
-                    <p 
-                        className="font-urdu text-ink-900 dir-rtl text-center md:text-right border-r-4 border-sage-200 pr-4"
-                        style={{ 
-                            fontSize: `${settings.fontSizeTranslation + 4}px`, // Urdu needs slightly larger base
-                            lineHeight: settings.lineSpacing 
-                        }}
+                    <p
+                        className={`font-urdu text-ink-900 dir-rtl text-center md:text-right border-r-4 border-sage-200 pr-4 quran-urdu-ayah ${getUrduFontSizeClass(settings.fontSizeTranslation + 4)} ${getLineHeightClass(settings.lineSpacing)}`}
                     >
                         {ayah.textUrdu}
                     </p>
                     
                     {/* English Translation (Slate/Grey) */}
-                    <p 
-                        className="font-body text-slate-600 text-center md:text-left pl-4 border-l-4 border-cream-200 md:border-l-0"
-                        style={{ 
-                            fontSize: `${settings.fontSizeTranslation}px`,
-                            lineHeight: settings.lineSpacing * 0.8 
-                        }}
+                    <p
+                        className={`font-body text-slate-600 text-center md:text-left pl-4 border-l-4 border-cream-200 md:border-l-0 quran-english-ayah ${getEnglishFontSizeClass(settings.fontSizeTranslation)} ${getLineHeightClass(settings.lineSpacing * 0.8)}`}
                     >
                         {ayah.textEnglish}
                     </p>
@@ -302,4 +288,40 @@ export const QuranReader: React.FC = () => {
       </div>
     </div>
   );
-};
+}
+
+// Utility functions for font size/line height classes
+function getArabicFontSizeClass(size: number) {
+    if (size <= 22) return 'text-[22px]';
+    if (size <= 28) return 'text-[28px]';
+    if (size <= 32) return 'text-[32px]';
+    if (size <= 40) return 'text-[40px]';
+    if (size <= 48) return 'text-[48px]';
+    return 'text-[60px]';
+}
+function getUrduFontSizeClass(size: number) {
+    if (size <= 16) return 'text-[16px]';
+    if (size <= 20) return 'text-[20px]';
+    if (size <= 24) return 'text-[24px]';
+    if (size <= 28) return 'text-[28px]';
+    if (size <= 32) return 'text-[32px]';
+    return 'text-[36px]';
+}
+function getEnglishFontSizeClass(size: number) {
+    if (size <= 12) return 'text-[12px]';
+    if (size <= 16) return 'text-[16px]';
+    if (size <= 18) return 'text-[18px]';
+    if (size <= 22) return 'text-[22px]';
+    return 'text-[26px]';
+}
+function getLineHeightClass(lh: number) {
+    if (lh <= 1.5) return 'leading-[1.5]';
+    if (lh <= 1.8) return 'leading-[1.8]';
+    if (lh <= 2.0) return 'leading-[2.0]';
+    if (lh <= 2.2) return 'leading-[2.2]';
+    if (lh <= 2.5) return 'leading-[2.5]';
+    if (lh <= 3.0) return 'leading-[3.0]';
+    return 'leading-[4.0]';
+}
+
+export default QuranReader;
