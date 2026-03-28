@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { geminiService } from '../services/geminiService';
+import { localAiService } from '../services/localAiService';
 
 export const KhutbahBuilder: React.FC = () => {
   const [topic, setTopic] = useState('');
@@ -11,7 +11,7 @@ export const KhutbahBuilder: React.FC = () => {
     if (!topic) return;
     setIsGenerating(true);
     try {
-      const points = await geminiService.generateKhutbahPoints(topic);
+      const points = await localAiService.generateKhutbahPoints(topic);
       setContent(prev => prev + (prev ? "\n\n" : "") + points);
     } catch (e) {
       console.error(e);

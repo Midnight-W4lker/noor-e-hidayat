@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ALL_SURAHS_METADATA, AVAILABLE_TAFSIRS } from '../constants';
 import { Surah, SurahMetadata, QuranSettings } from '../types';
-import { quranService } from '../services/quranService';
+import { OFFLINE_SURAH_NUMBERS, quranService } from '../services/quranService';
 
 export const QuranReader: React.FC = () => {
   const [selectedSurah, setSelectedSurah] = useState<Surah | null>(null);
@@ -29,19 +29,26 @@ export const QuranReader: React.FC = () => {
     }
   }, [settings.showTafsir, settings.selectedTafsirId]);
 
+  const offlineSurahNames = OFFLINE_SURAH_NUMBERS
+    .map((number) => ALL_SURAHS_METADATA.find((surah) => surah.number === number)?.nameEnglish)
+    .filter(Boolean);
+
   const handleSurahClick = async (metadata: SurahMetadata, forceTafsirFetch = false) => {
-      setIsLoading(true);
-      setError('');
-      try {
+    setIsLoading(true);
+    setError('');
+    try {
           // Pass Tafsir ID only if enabled
           const tafsirToFetch = (settings.showTafsir || forceTafsirFetch) ? settings.selectedTafsirId : undefined;
           const fullSurah = await quranService.getSurah(metadata, tafsirToFetch);
           setSelectedSurah(fullSurah);
       } catch (err) {
-          setError("Connection failed. Please ensure you are online to download this Surah content.");
-      } finally {
-          setIsLoading(false);
-      }
+      const message = err instanceof Error
+        ? err.message
+        : "Unable to load this Surah offline.";
+      setError(message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // --- Settings Controls Handlers ---
@@ -79,6 +86,10 @@ export const QuranReader: React.FC = () => {
                 {error}
             </div>
         )}
+
+        <div className="mb-6 text-xs text-ink-500">
+          Offline bundle includes {offlineSurahNames.join(', ')}.
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {ALL_SURAHS_METADATA.map((surah) => (

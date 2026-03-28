@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage } from '../types';
-import { geminiService } from '../services/geminiService';
+import { localAiService } from '../services/localAiService';
 
 export const AICompanion: React.FC = () => {
   const [history, setHistory] = useState<ChatMessage[]>([
     {
       id: '1',
       role: 'model',
-      text: "As-salamu alaykum. I am Noor, your guardian of knowledge. I can assist you with references from the Quran, Sunnah, or Fiqh history. How may I be of service?"
+      text: "As-salamu alaykum. I am Noor, your local guardian of knowledge. I rely on the Quran, Sahih Hadith, and fiqh resources bundled inside this portal."
     }
   ]);
   const [input, setInput] = useState('');
@@ -36,7 +36,7 @@ export const AICompanion: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const responseText = await geminiService.sendMessage(history, userMsg.text);
+      const responseText = await localAiService.sendMessage(history, userMsg.text);
       
       const modelMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -74,7 +74,7 @@ export const AICompanion: React.FC = () => {
         </div>
         <div>
           <h2 className="font-heading text-xl font-bold text-ink-900">Noor AI Guardian</h2>
-          <p className="text-xs text-ink-500">Powered by Verified Sources (Beta)</p>
+             <p className="text-xs text-ink-500">Built on the Noor Offline Knowledge Pack</p>
         </div>
       </div>
 
